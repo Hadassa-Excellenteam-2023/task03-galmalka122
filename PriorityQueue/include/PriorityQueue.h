@@ -1,45 +1,43 @@
-#pragma once
+	#pragma once
 #include <algorithm>
 #include <iterator>
 #include <list>
-#include <exception>
+#include <stdexcept>
 
-using std::list;
-
+template <typename T>
+using priorityQueue = std::list<T>;
 
 template <typename T>
 struct MyComperator {
 	T operator()(T a, T b) {
 		return a - b;
 	}
-
-}
-
+};
 
 template <typename T>
 class PriorityQueue {
-   
+
+	MyComperator<T> m_comp;
+	priorityQueue<T> m_priorityQueue;
+
 public:
 
 	void push(const T& t) {
-		auto it = m_list.begin();
-		for (; it != m_list.end() && m_comp(*it, t) < 0; ++it);
-		m_list.insert(it, t);
+		auto it = m_priorityQueue.begin();
+		for (; it != m_priorityQueue.end() && m_comp(*it, t) < 0; ++it);
+		m_priorityQueue.insert(it, t);
 	};
 
 	T poll() {
-		if (m_list.empty()) {
-			throw std::exception("PriorityQueue empty !");
+		if (m_priorityQueue.empty()) {
+			throw std::out_of_range("PriorityQueue empty !");
 		}
 		else {
-			T r = m_list.front();
-			m_list.pop_front();
+			T r = m_priorityQueue.front();
+			m_priorityQueue.pop_front();
 			return r;
 		}
 	};
 
-private:
-	 m_comp;
-	list<T> m_list;
-};
 
+};
