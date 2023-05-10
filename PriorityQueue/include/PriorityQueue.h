@@ -1,19 +1,43 @@
 #pragma once
-
-#include <iostream>
 #include <list>
-#include <exception>
+#include <stdexcept>
 
+using empty_queue_except = std::out_of_range;
 
-// any templates?
+template <typename T>
+using priorityQueue = std::list<T>;
+
+template <typename T>
+struct MyComperator {
+	T operator()(T a, T b) {
+		return a - b;
+	}
+};
+
+template <typename T>
 class PriorityQueue {
-   
-public:
-	
-   // You need to complete the implement : 
-	void push(const T& t); 
-	T poll();
 
-private:
-// add relevant data members
+	MyComperator<T> m_comp;
+	priorityQueue<T> m_priorityQueue;
+
+public:
+
+	void push(const T& t) {
+		auto it = m_priorityQueue.begin();
+		for (; it != m_priorityQueue.end() && m_comp(*it, t) < 0; ++it);
+		m_priorityQueue.insert(it, t);
+	};
+
+	T poll() {
+		if (m_priorityQueue.empty()) {
+			throw empty_queue_except("PriorityQueue empty !");
+		}
+		else {
+			T r = m_priorityQueue.front();
+			m_priorityQueue.pop_front();
+			return r;
+		}
+	};
+
+
 };
