@@ -2,6 +2,8 @@
 #include <list>
 #include <stdexcept>
 
+using empty_queue_except = std::out_of_range;
+
 template <typename T>
 using priorityQueue = std::list<T>;
 
@@ -28,7 +30,7 @@ public:
 
 	T poll() {
 		if (m_priorityQueue.empty()) {
-			throw std::out_of_range("PriorityQueue empty !");
+			throw empty_queue_except("PriorityQueue empty !");
 		}
 		else {
 			T r = m_priorityQueue.front();
