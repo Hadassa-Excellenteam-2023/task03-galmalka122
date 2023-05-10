@@ -1,6 +1,4 @@
 #pragma once
-#include <algorithm>
-#include <iterator>
 #include <list>
 #include <stdexcept>
 
